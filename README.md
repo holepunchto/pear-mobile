@@ -1,43 +1,67 @@
 # pear-mobile
 
-Embeddable Pear runtime that gives you P2P OTA update messages and bare workers for mobile applications
+Embeddable Pear runtime for mobile applications. Provides storage path and bare workers via worklets.
 
 ```sh
 npm install pear-mobile
 ```
-
 ```sh
 npm install react-native-bare-kit --save
 ```
 
+Requires `react-native-bare-kit` to be listed in project dependencies.
+
+## Usage
+
+```js
+import PearRuntime from 'pear-mobile'
+import bundle from './worker.bundle.js'
+
+const runtime = new PearRuntime()
+const appStorage = runtime.storage
+
+const IPC = runtime.run('/worker.bundle', bundle, [appStorage])
+```
+
 ## API
 
-#### `const runtime = new PearRuntime(...)`
+#### `const runtime = new PearRuntime()`
 
-TODO
+Create a runtime.
 
-#### `worker = runtime.run(filename, bundle, argv)`
+#### `runtime.storage`
 
-Start a bare worker. Worker is a duplex stream.
-Stdio is available at worker.stdin, worker.stdout, worker.stderr.
+Absolute path to the runtime app storage directory.
 
-#### `runtime.on('updating')`
+#### `runtime.on(event, callback)`
 
-Emitted when an update is in progress
+Subscribe to an event. Returns `runtime` for chaining.
 
-#### `runtime.on('updated')`
+#### `runtime.off(event, callback?)`
 
-Emitted when an update is done
+Unsubscribe: remove `callback` for `event`, or remove all listeners for `event` if `callback` is omitted. Returns `runtime`.
 
-#### `await runtime.close()`
+#### `runtime.once(event, callback)`
 
-Shut it down. You should do this when closing your app for best performance.
+Subscribe to an event once; listener is removed after the first emit. Returns `runtime`.
 
-## Troubleshoot
+#### `IPC = runtime.run(filename, bundle, argv)`
 
-```sh
-npx pear-mobile
-```
+Start a bare worker (worklet). Returns an IPC duplex stream. `filename` is a virtual path, `bundle` is the worklet bundle, `argv` is an array of string arguments.
+
+Use Bare.argv in worker to access.
+
+#### `runtime.ready()`
+
+Returns a Promise. No-op on mobile; for API compatibility.
+
+#### `runtime.close()`
+
+Returns a Promise. No-op on mobile; for API compatibility.
+
+#### `runtime.applyUpdate()`
+
+Returns a Promise. On mobile this is not supported and only logs a warning; for API compatibility.
 
 ## LICENSE
 
