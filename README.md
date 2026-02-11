@@ -50,7 +50,7 @@ Subscribe to an event once; listener is removed after the first emit. Returns `r
 
 Start a bare worker (worklet). Returns an IPC duplex stream. `filename` is a virtual path, `bundle` is the worklet bundle, `argv` is an array of string arguments.
 
-Use Bare.argv in worker to access.
+`Bare.argv` in worker to access `argv`.
 
 #### `runtime.ready()`
 
