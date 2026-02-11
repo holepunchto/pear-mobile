@@ -10,9 +10,6 @@
       "default": "./index.js"
     }
   },
-  "bin": {
-    "pear-mobile": "./bin.js"
-  },
   "files": [
     "package.json",
     "index.js",

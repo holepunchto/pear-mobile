@@ -13,8 +13,8 @@ module.exports = class PearRuntime {
     this.link = 'pear://' + this.fork + '.' + this.length + '.' + this.key
   }
 
-  async ready(){}
-  async close(){}
+  async ready() {}
+  async close() {}
 
   on(event, callback) {
     if (!this._listeners[event]) this._listeners[event] = []

@@ -5,6 +5,7 @@ Embeddable Pear runtime for mobile applications. Provides storage path and bare 
 ```sh
 npm install pear-mobile
 ```
+
 ```sh
 npm install react-native-bare-kit --save
 ```
