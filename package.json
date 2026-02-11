@@ -1,19 +1,25 @@
 {
-  "name": "@holepunchto/repo-template",
+  "name": "pear-mobile",
   "version": "0.0.1",
-  "description": "repo-template",
+  "description": "pear-mobile",
   "main": "index.js",
   "exports": {
     "./package": "./package.json",
     ".": {
       "types": "./index.d.ts",
       "default": "./index.js"
-    }
+    },
+    "./bundle": "./lib/pear.bundle.js"
+  },
+  "bin": {
+    "pear-mobile": "./bin.js"
   },
   "files": [
     "package.json",
     "index.js",
-    "index.d.ts"
+    "index.d.ts",
+    "bin.js",
+    "lib/"
   ],
   "devDependencies": {
     "brittle": "^3.19.0",
@@ -22,18 +28,30 @@
     "prettier-config-holepunch": "^2.0.0"
   },
   "scripts": {
+    "build": "npx bare-pack --host ios --host android --linked --out ./lib/pear.bundle.js ./lib/pear.js",
     "format": "prettier . --write",
     "test": "prettier . --check && lunte && brittle-bare test/index.js",
     "lint": "lunte"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/holepunchto/repo-template.git"
+    "url": "https://github.com/holepunchto/pear-mobile.git"
   },
   "author": "Holepunch Inc",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/holepunchto/repo-template/issues"
+    "url": "https://github.com/holepunchto/pear-mobile/issues"
   },
-  "homepage": "https://github.com/holepunchto/repo-template"
+  "homepage": "https://github.com/holepunchto/pear-mobile",
+  "dependencies": {
+    "bare-bundle-id": "^1.0.2",
+    "bare-module-traverse": "^2.0.1",
+    "bare-pack": "^2.0.0",
+    "bare-rpc": "^1.1.0",
+    "corestore": "^7.8.0",
+    "hyperdrive": "^13.2.1",
+    "hyperswarm": "^4.16.0",
+    "react-native-fs": "^2.20.0",
+    "ready-resource": "^1.2.0"
+  }
 }
