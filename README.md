@@ -1,6 +1,6 @@
 # pear-mobile
 
-Embeddable Pear runtime that gives you P2P OTA updates and bare workers for mobile applications
+Embeddable Pear runtime that gives you P2P OTA update messages and bare workers for mobile applications
 
 ```sh
 npm install pear-mobile
