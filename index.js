@@ -5,6 +5,7 @@ const RNFS = require('react-native-fs')
 
 module.exports = class PearRuntime {
   constructor(config = {}) {
+    // TODO: expose properties
     config = {
       dir: `${RNFS.DocumentDirectoryPath}/pear-runtime/cores`,
       ...config
