@@ -46,11 +46,12 @@ Unsubscribe: remove `callback` for `event`, or remove all listeners for `event` 
 
 Subscribe to an event once; listener is removed after the first emit. Returns `runtime`.
 
-#### `IPC = runtime.run(filename, bundle, argv)`
+#### `const IPC <stream.Duplex> = runtime.run(filename, bundle, argv)`
 
 Start a bare worker (worklet). Returns an IPC duplex stream. `filename` is a virtual path, `bundle` is the worklet bundle, `argv` is an array of string arguments.
 
 `Bare.argv` in worker to access `argv`.
+`Bare.IPC` in worker to access stream.
 
 #### `runtime.ready()`
 
