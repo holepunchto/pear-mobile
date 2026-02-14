@@ -8,25 +8,14 @@
     ".": {
       "types": "./index.d.ts",
       "default": "./index.js"
-    },
-    "./bundle": "./lib/pear.bundle.js"
-  },
-  "bin": {
-    "pear-mobile": "./bin.js"
+    }
   },
   "files": [
     "package.json",
     "index.js",
     "index.d.ts",
-    "bin.js",
-    "lib/"
+    "lib/pear.bundle.js"
   ],
-  "devDependencies": {
-    "brittle": "^3.19.0",
-    "lunte": "^1.2.0",
-    "prettier": "^3.6.2",
-    "prettier-config-holepunch": "^2.0.0"
-  },
   "scripts": {
     "build": "npx bare-pack --host ios --host android --linked --out ./lib/pear.bundle.js ./lib/pear.js",
     "format": "prettier . --write",
@@ -43,20 +32,31 @@
     "url": "https://github.com/holepunchto/pear-mobile/issues"
   },
   "homepage": "https://github.com/holepunchto/pear-mobile",
-  "dependencies": {
-    "b4a": "^1.7.4",
-    "bare-bundle-id": "^1.0.2",
-    "bare-module-traverse": "^2.0.1",
-    "bare-pack": "^2.0.0",
-    "bare-path": "^3.0.0",
-    "bare-rpc": "^1.1.0",
-    "corestore": "^7.8.0",
-    "hypercore-id-encoding": "^1.3.0",
+  "devDependencies": {
+    "brittle": "^3.19.0",
+    "lunte": "^1.2.0",
+    "prettier": "^3.6.2",
+    "prettier-config-holepunch": "^2.0.0",
     "hyperdrive": "^13.2.1",
     "hyperswarm": "^4.16.0",
     "localdrive": "^2.2.0",
     "pear-link": "^4.2.1",
-    "react-native-fs": "^2.20.0",
+    "bare-bundle-id": "^1.0.2",
+    "bare-module-traverse": "^2.0.1",
+    "bare-pack": "^2.0.0",
+    "bare-path": "^3.0.0",
+    "corestore": "^7.8.0",
+    "hypercore-id-encoding": "^1.3.0",
     "ready-resource": "^1.2.0"
+  },
+  "dependencies": {
+    "b4a": "^1.7.4",
+    "bare-rpc": "^1.1.0",
+    "react-native-fs": "^2.20.0"
+  },
+  "peerDependencies": {
+    "react-native-bare-kit": "*",
+    "@react-native-async-storage/async-storage": "*",
+    "react-native": "*"
   }
 }

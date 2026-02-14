@@ -42,7 +42,7 @@ module.exports = class PearRuntime {
       if (req.command === 0) {
         const version = b4a.toString(req.data)
         console.log('received version form pearend:', version)
-        this.emit('updateReady', version)
+        this.emit('updated')
       }
       if (req.command === 1){
         const updateData = b4a.toString(req.data)
