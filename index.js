@@ -1,29 +1,36 @@
-const { Worklet } = require('react-native-bare-kit')
-const bundle = require('./lib/pear.bundle.js') // needs to be build
+const { Worklet } = require('react-native-bare-kit') // NEED TO INSTALL IN ROOT PRJECT (version match)
+const bundle = require('./lib/pear.bundle.js')
 const RPC = require('bare-rpc')
 const RNFS = require('react-native-fs')
+const AsyncStorage = require('@react-native-async-storage/async-storage') // NEED TO INSTALL IN ROOT PRJECT (version match)
+const { DevSettings } = require('react-native') // NEED TO INSTALL IN ROOT PRJECT (version match)
+const b4a = require('b4a')
 
 module.exports = class PearRuntime {
   constructor(config = {}) {
+    if (!config.upgrade) throw new Error('upgrade link required')
     this.config = {
       dir: `${RNFS.DocumentDirectoryPath}/pear-runtime`,
+      isDev: __DEV__,
       ...config
     }
+
     this._listeners = Object.create(null)
+    this._calledReady = null
 
-    this.version = config.version || 0
-    this.storage = `${RNFS.DocumentDirectoryPath}/pear-runtime/storage`
-    this.key = config.key
-    this.length = config.length
-    this.fork = config.fork || 0
-    this.link = 'pear://' + this.fork + '.' + this.length + '.' + this.key
-
-    this.ready().catch(noop)
+    this.IPCPromise = this.ready().catch(noop)
   }
 
-  async ready() {
-    const runtimeDir = `${RNFS.DocumentDirectoryPath}/pear-runtime`;
-    const storageDir = `${RNFS.DocumentDirectoryPath}/pear-runtime/storage`;
+  ready() {
+    if (this._calledReady) return this._calledReady
+    this._calledReady = this._open()
+    return this._calledReady
+  }
+
+  async _open() {
+    const runtimeDir = `${RNFS.DocumentDirectoryPath}/pear-runtime`
+    const storageDir = `${runtimeDir}/storage`
+
     await RNFS.mkdir(runtimeDir)
     await RNFS.mkdir(storageDir)
 
@@ -31,12 +38,33 @@ module.exports = class PearRuntime {
     const worklet = new Worklet()
     worklet.start('/pear.bundle', bundle, argv)
 
-    new RPC(worklet.IPC, (req) => {
-      if (req.command === 'updated') {
-        this.emit('updated')
+    return new RPC(worklet.IPC, async (req) => {
+      if (req.command === 0) {
+        const version = b4a.toString(req.data)
+        console.log('received version form pearend:', version)
+        this.emit('updateReady', version)
+      }
+      if (req.command === 1){
+        const updateData = b4a.toString(req.data)
+        console.log('[Update Diff]', updateData)
+      }
+      if (req.command === 2){
+        const logString = b4a.toString(req.data)
+        console.log('[pear-runtime]:', logString)
       }
     })
   }
+
+  async applyUpdate(version) {
+    await AsyncStorage.multiSet([
+      ['updatePending', 'true'],
+      ['updateConfirmed', 'false'],
+      ['runtimeVersion', String(version ?? this.version)]
+    ])
+
+    DevSettings.reload()
+  }
+
   async close() {}
 
   on(event, callback) {
@@ -48,7 +76,8 @@ module.exports = class PearRuntime {
   off(event, callback) {
     if (!this._listeners[event]) return this
     if (callback) {
-      this._listeners[event] = this._listeners[event].filter((fn) => fn !== callback)
+      this._listeners[event] =
+        this._listeners[event].filter(fn => fn !== callback)
     } else {
       this._listeners[event] = []
     }
@@ -75,11 +104,6 @@ module.exports = class PearRuntime {
     worklet.start(filename, bundle, argv)
     return worklet.IPC
   }
-
-  async applyUpdate() {
-    console.warn('PearRuntime: applyUpdate() not supported for mobile')
-  }
 }
 
-function noop (){}
-
+function noop() {}
