@@ -6,7 +6,7 @@ const AsyncStorage = require('@react-native-async-storage/async-storage') // NEE
 const { DevSettings } = require('react-native') // NEED TO INSTALL IN ROOT PRJECT (version match)
 const b4a = require('b4a')
 
-module.exports = class PearRuntime {
+module.exports = class PearMobile {
   constructor(config = {}) {
     if (!config.upgrade) throw new Error('upgrade link required')
     this.config = {

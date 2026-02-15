@@ -1,6 +1,6 @@
 {
   "name": "pear-mobile",
-  "version": "0.1.0",
+  "version": "0.1.1-rc",
   "description": "Embeddable Pear runtime for mobile applications",
   "main": "index.js",
   "exports": {
