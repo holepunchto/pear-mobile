@@ -64,6 +64,7 @@ module.exports = class PearRuntime extends ReadyResource {
   }
 
   async applyUpdate() {
+    // we apply the update the same way bc react-native will always try to boot (e.g) upgrade/runtime.ios.bundle first
     if (!this.updated || this.applied || !this.dir) return
     this.applied = true
     if (!await fs.exists(this.app)) {
