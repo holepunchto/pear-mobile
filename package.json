@@ -6,6 +6,7 @@
   "exports": {
     "./package": "./package.json",
     ".": {
+      "react-native": "./index.rn.js",
       "types": "./index.d.ts",
       "default": "./index.js"
     }
@@ -14,10 +15,9 @@
     "package.json",
     "index.js",
     "index.d.ts",
-    "lib/pear.bundle.js"
+    "index.rn.js"
   ],
   "scripts": {
-    "build": "npx bare-pack --host ios --host android --linked --out ./lib/pear.bundle.js ./lib/pear.js",
     "format": "prettier . --write",
     "test": "prettier . --check && lunte && brittle-bare test/index.js",
     "lint": "lunte"
@@ -36,25 +36,21 @@
     "brittle": "^3.19.0",
     "lunte": "^1.2.0",
     "prettier": "^3.6.2",
-    "prettier-config-holepunch": "^2.0.0",
-    "bare-pack": "^2.0.0"
+    "prettier-config-holepunch": "^2.0.0"
   },
   "dependencies": {
     "b4a": "^1.7.4",
-    "bare-rpc": "^1.1.0",
-    "react-native-fs": "^2.20.0",
+    "bare-path": "^3.0.0",
+    "corestore": "^7.8.0",
+    "hypercore-id-encoding": "^1.3.0",
     "hyperdrive": "^13.2.1",
     "hyperswarm": "^4.16.0",
     "localdrive": "^2.2.0",
     "pear-link": "^4.2.1",
-    "bare-path": "^3.0.0",
-    "corestore": "^7.8.0",
-    "hypercore-id-encoding": "^1.3.0",
+    "react-native-fs": "^2.20.0",
     "ready-resource": "^1.2.0"
   },
   "peerDependencies": {
-    "react-native-bare-kit": "*",
-    "@react-native-async-storage/async-storage": "*",
-    "react-native": "*"
+    "react-native-bare-kit": "*"
   }
 }
