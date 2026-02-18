@@ -10,7 +10,7 @@ const ReadyResource = require('ready-resource')
 const plink = require('pear-link')
 const hid = require('hypercore-id-encoding')
 const Localdrive = require('localdrive')
-const { isIOS, isAndroid } = require('which-runtime')
+const { isIOS } = require('which-runtime')
 
 module.exports = class PearRuntime extends ReadyResource {
   constructor(config) {
