@@ -6,76 +6,93 @@ Embeddable Pear runtime for mobile applications. Provides storage path and bare 
 npm install pear-mobile
 ```
 
-```sh
-npm install react-native-bare-kit --save
-```
+This module integrates Pear into React-Native-based Mobile applications.
 
-Requires `react-native-bare-kit` to be listed in project dependencies.
+See [pear-runtime](https://github.com/holepunchto/pear-runtime) for Pear's embeddable runtime module for Desktop Devices.
 
 ## Usage
 
 ```js
-/* React Native */
-import PearRuntime from 'pear-mobile'
-import bundle from './worker.bundle.js'
-import { version, upgrade } from './package.json'
-
-const runtime = new PearRuntime()
-const IPC = runtime.run('/worker.bundle', bundle, [runtime.dir])
-
-/* Bare Worklet */
-const PearRuntime = require('pear-runtime')
+const PearRuntime = require('pear-mobile')
 const { version, upgrade } = require('./package.json')
 
-const dir = Bare.argv[0]
+const dir = Bare.argv[0] // pass the /Documents storage dir
 
 const runtime = new PearRuntime({ version, upgrade, dir })
-runtime.on('updated', () => {
-  runtime.applyUpdate()
+runtime.on('updated', async () => {
+  await runtime.applyUpdate()
   conosle.log('restart for update')
 })
 ```
 
+## Quick Starts
+
+### Expo
+
+```sh
+git clone https://github.com/holepunchto/hello-pear-react-native
+```
+
+For end-to-end instructions from building to deploying with [Pear](https://docs.pears.com) see [hello-pear-react-native](https://github.com/holepunchto/hello-pear-react-native) `README.md`.
+
+## Features
+
+- Peer-to-Peer Over-the-Air (P2P OTA) updates (via [pear-runtime-updater](https://www.github.com/holepunchto/pear-runtime-updater))
+- Application storage management
+
 ## API
 
-#### `const runtime = new PearRuntime(...)`
+Inherits from [pear-runtime-updater]{https://www.github.com/holepunchto/pear-runtime-updater}
 
-Create a runtime.
+#### `const runtime = new PearRuntime(opts)`
+
+Create a runtime. `opts` may include:
+
+- **`dir`** (required) – Base directory for runtime data and app storage.
+- **`version`** – Current app version (e.g. from `package.json`); used for update checks.
+- **`upgrade`** – Pear link for OTA updates (e.g. from `package.json` `upgrade` field).
+- **`app`** – Path to the native boot bundle override; required for `applyUpdate()` to swap in the new build. Defaults to `path/to/Documents/pear-runtime/upgrades`
+- **`updates`** – Set to `false` to disable P2P OTA updates.
+- **`storage`** – Saves the app storage path.
 
 #### `runtime.storage`
 
-Absolute path to the runtime app storage directory.
+Suggested storage folder for app storage.
 
-#### `runtime.on(event, callback)`
+#### `await runtime.close()`
 
-Subscribe to an event. Returns `runtime` for chaining.
+Shut it down. You should do this when closing your app for best performance.
 
-#### `runtime.off(event, callback?)`
+## Making updates
 
-Unsubscribe: remove `callback` for `event`, or remove all listeners for `event` if `callback` is omitted. Returns `runtime`.
+VERY EXPERIMENTAL, MOST DEFINITELY WILL CHANGE.
 
-#### `runtime.once(event, callback)`
+Update listening and apply logic lives in [pear-runtime-updater](https://www.github.com/holepunchto/pear-runtime-updater).
 
-Subscribe to an event once; listener is removed after the first emit. Returns `runtime`.
+First allocate a pear link if you haven't using [`pear`](https://github.com/holepunchto/pear):
 
-#### `const IPC <stream.Duplex> = runtime.run(filename, bundle, argv)`
+```sh
+pear touch
+```
 
-Start a bare worker (worklet). Returns an IPC duplex stream. `filename` is a virtual path, `bundle` is the worklet bundle, `argv` is an array of string arguments.
+Store this link in the `package.json` `upgrade` field of a project. See [example](./example/package.json).
 
-`Bare.argv` in worker to access `argv`.
-`Bare.IPC` in worker to access stream.
+bundle your JS frontend. Take the distributable (e.g react-native bundle and assets) produced and make a deployment folder with the following structure:
 
-#### `runtime.ready()`
+```
+/package.json
+/by-arch
+  /[...platform-arch]
+    /app
+```
 
-Returns a Promise. No-op on mobile; for API compatibility.
+Now go to this folder and stage this onto the link with `pear stage`
 
-#### `runtime.close()`
+```sh
+pear stage {link-from-touch}
+```
 
-Returns a Promise. No-op on mobile; for API compatibility.
-
-#### `runtime.applyUpdate()`
-
-Returns a Promise. On mobile this is not supported and only logs a warning; for API compatibility.
+Now seed it. Any build out there on a lower version will trigger the update flow.
 
 ## LICENSE
 
