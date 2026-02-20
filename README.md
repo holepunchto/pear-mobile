@@ -15,18 +15,30 @@ Requires `react-native-bare-kit` to be listed in project dependencies.
 ## Usage
 
 ```js
+/* React Native */
 import PearRuntime from 'pear-mobile'
 import bundle from './worker.bundle.js'
+import { version, upgrade } from './package.json'
 
 const runtime = new PearRuntime()
-const appStorage = runtime.storage
+const IPC = runtime.run('/worker.bundle', bundle, [runtime.dir])
 
-const IPC = runtime.run('/worker.bundle', bundle, [appStorage])
+/* Bare Worklet */
+const PearRuntime = require('pear-runtime')
+const { version, upgrade } = require('./package.json')
+
+const dir = Bare.argv[0]
+
+const runtime = new PearRuntime({ version, upgrade, dir })
+runtime.on('updated', () => {
+  runtime.applyUpdate()
+  conosle.log('restart for update')
+})
 ```
 
 ## API
 
-#### `const runtime = new PearRuntime()`
+#### `const runtime = new PearRuntime(...)`
 
 Create a runtime.
 

@@ -1,6 +1,6 @@
 {
   "name": "pear-mobile",
-  "version": "0.0.1",
+  "version": "1.0.0-rc",
   "description": "Embeddable Pear runtime for mobile applications",
   "main": "index.js",
   "exports": {
@@ -13,14 +13,9 @@
   "files": [
     "package.json",
     "index.js",
-    "index.d.ts"
+    "index.d.ts",
+    "index.rn.js"
   ],
-  "devDependencies": {
-    "brittle": "^3.19.0",
-    "lunte": "^1.2.0",
-    "prettier": "^3.6.2",
-    "prettier-config-holepunch": "^2.0.0"
-  },
   "scripts": {
     "format": "prettier . --write",
     "test": "prettier . --check && lunte && brittle-bare test/index.js",
@@ -36,7 +31,15 @@
     "url": "https://github.com/holepunchto/pear-mobile/issues"
   },
   "homepage": "https://github.com/holepunchto/pear-mobile",
+  "devDependencies": {
+    "brittle": "^3.19.0",
+    "lunte": "^1.2.0",
+    "prettier": "^3.6.2",
+    "prettier-config-holepunch": "^2.0.0"
+  },
   "dependencies": {
-    "react-native-fs": "^2.20.0"
+    "bare-fs": "^4.5.4",
+    "bare-path": "^3.0.0",
+    "pear-runtime-updater": "^0.0.10"
   }
 }
