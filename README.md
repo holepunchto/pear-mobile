@@ -29,10 +29,10 @@ const { version, upgrade } = require('./package.json')
 
 const dir = Bare.argv[0]
 
-const runtime = new PearRuntime({version, upgrade, dir})
+const runtime = new PearRuntime({ version, upgrade, dir })
 runtime.on('updated', () => {
-    runtime.applyUpdate()
-    conosle.log('restart for update')
+  runtime.applyUpdate()
+  conosle.log('restart for update')
 })
 ```
 
