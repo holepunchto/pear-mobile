@@ -10,6 +10,10 @@ This module integrates Pear into React-Native-based Mobile applications.
 
 See [pear-runtime](https://github.com/holepunchto/pear-runtime) for Pear's embeddable runtime module for Desktop Devices.
 
+## MVP - EXPERIMENTAL
+
+This boilerplate is MVP and Experimental.
+
 ## Usage
 
 ```js
@@ -48,9 +52,9 @@ Inherits from [pear-runtime-updater]{https://www.github.com/holepunchto/pear-run
 
 Create a runtime. `opts` may include:
 
-- **`dir`** (required) – Base directory for runtime data and app storage.
+- **`dir`** (required) Directory to store data (e.g. app data dir).
+- **`upgrade`** – (required) Pear link for OTA updates (e.g. from `package.json` `upgrade` field).
 - **`version`** – Current app version (e.g. from `package.json`); used for update checks.
-- **`upgrade`** – Pear link for OTA updates (e.g. from `package.json` `upgrade` field).
 - **`app`** – Path to the native boot bundle override; required for `applyUpdate()` to swap in the new build. Defaults to `path/to/Documents/pear-runtime/upgrades`
 - **`updates`** – Set to `false` to disable P2P OTA updates.
 - **`storage`** – Saves the app storage path.
@@ -59,7 +63,27 @@ Create a runtime. `opts` may include:
 
 Suggested storage folder for app storage.
 
-#### `await runtime.close()`
+#### `pear.storage`
+
+Suggested storage folder for app storage.
+
+#### `pear.on('updating')`
+
+Emitted when an update is in progress
+
+#### `updater.on('updating-delta', data)`
+
+Emitted with progress data while mirroring the update.
+
+#### `pear.on('updated')`
+
+Emitted when an update is done
+
+#### `await pear.applyUpdate()`
+
+Apply the update. Only valid post `updated`. On next app restart the new update is in effect.
+
+#### `await pear.close()`
 
 Shut it down. You should do this when closing your app for best performance.
 
@@ -75,7 +99,7 @@ First allocate a pear link if you haven't using [`pear`](https://github.com/hole
 pear touch
 ```
 
-Store this link in the `package.json` `upgrade` field of a project. See [example](./example/package.json).
+Store this link in the `package.json` `upgrade` field of a project.
 
 bundle your JS frontend. Take the distributable (e.g react-native bundle and assets) produced and make a deployment folder with the following structure:
 
