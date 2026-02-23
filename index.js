@@ -15,6 +15,7 @@ module.exports = class PearRuntime extends ReadyResouce {
       opts.version = JSON.parse(manifest).version
     }
     opts = { app: appPath, ...opts }
+    this.dir = opts.dir
     this.storage = opts.storage || path.join(this.dir, 'app-storage')
 
     this.updater = new PearRuntimeUpdater(opts)
