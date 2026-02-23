@@ -41,6 +41,7 @@
     "bare-fs": "^4.5.4",
     "bare-path": "^3.0.0",
     "bare-storage": "^1.0.1",
-    "pear-runtime-updater": "^0.0.13"
+    "pear-runtime-updater": "^0.0.13",
+    "ready-resource": "^1.2.0"
   }
 }

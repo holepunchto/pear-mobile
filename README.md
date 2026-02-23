@@ -23,8 +23,8 @@ const { version, upgrade } = require('./package.json')
 const dir = Bare.argv[0] // pass the /Documents storage dir
 
 const runtime = new PearRuntime({ version, upgrade, dir })
-runtime.on('updated', async () => {
-  await runtime.applyUpdate()
+runtime.updater.on('updated', async () => {
+  await runtime.updater.applyUpdate()
   conosle.log('restart for update')
 })
 ```
@@ -46,9 +46,7 @@ For end-to-end instructions from building to deploying with [Pear](https://docs.
 
 ## API
 
-Inherits from [pear-runtime-updater]{https://www.github.com/holepunchto/pear-runtime-updater}
-
-#### `const runtime = new PearRuntime(opts)`
+#### `const pear = new PearRuntime(opts)`
 
 Create a runtime. `opts` may include:
 
@@ -59,29 +57,17 @@ Create a runtime. `opts` may include:
 - **`updates`** – Set to `false` to disable P2P OTA updates.
 - **`storage`** – Saves the app storage path.
 
-#### `runtime.storage`
-
-Suggested storage folder for app storage.
-
 #### `pear.storage`
 
 Suggested storage folder for app storage.
 
-#### `pear.on('updating')`
+#### `pear.updater`
 
-Emitted when an update is in progress
+Instance of [pear-runtime-updater](https://www.github.com/holepunchto/pear-runtime-updater)
 
-#### `updater.on('updating-delta', data)`
+#### `await updater.ready()`
 
-Emitted with progress data while mirroring the update.
-
-#### `pear.on('updated')`
-
-Emitted when an update is done
-
-#### `await pear.applyUpdate()`
-
-Apply the update. Only valid post `updated`. On next app restart the new update is in effect.
+Awaits the open of the updater (p2p connections, drive open ...)
 
 #### `await pear.close()`
 
