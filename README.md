@@ -18,11 +18,11 @@ This boilerplate is MVP and Experimental.
 
 ```js
 const PearRuntime = require('pear-mobile')
-const { version, upgrade } = require('./package.json')
+const { version, upgrade, productName, name } = require('./package.json')
 
-const dir = Bare.argv[0] // pass the /Documents storage dir
+const app = productName ?? name
 
-const runtime = new PearRuntime({ version, upgrade, dir })
+const runtime = new PearRuntime({ version, upgrade, app })
 runtime.updater.on('updated', async () => {
   await runtime.updater.applyUpdate()
   conosle.log('restart for update')
@@ -66,7 +66,7 @@ Suggested storage folder for app storage.
 
 Instance of [pear-runtime-updater](https://www.github.com/holepunchto/pear-runtime-updater)
 
-#### `await updater.ready()`
+#### `await pear.ready()`
 
 Awaits the open of the updater (p2p connections, drive open ...)
 
