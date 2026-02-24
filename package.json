@@ -40,7 +40,7 @@
   "dependencies": {
     "bare-path": "^3.0.0",
     "bare-storage": "^1.0.1",
-    "pear-runtime-updater": "file:../pear-runtime-updater/pear-runtime-updater-0.0.14.tgz",
+    "pear-runtime-updater": "^1.0.0",
     "ready-resource": "^1.2.0"
   }
 }
