@@ -50,10 +50,11 @@ For end-to-end instructions from building to deploying with [Pear](https://docs.
 
 Create a runtime. `opts` may include:
 
-- **`dir`** (required) Directory to store data (e.g. app data dir).
+- **`dir`** Directory to store data (e.g. app data dir). Defaults to `/Documents`.
 - **`upgrade`** – (required) Pear link for OTA updates (e.g. from `package.json` `upgrade` field).
+- **`app`** – (required) The package.json prductName or name of the app. required for `applyUpdate()` to swap in the new build.
+- **`name`** - The package.json prductName or name of the app.
 - **`version`** – Current app version (e.g. from `package.json`); used for update checks.
-- **`app`** – Path to the native boot bundle override; required for `applyUpdate()` to swap in the new build. Defaults to `path/to/Documents/pear-runtime/upgrades`
 - **`updates`** – Set to `false` to disable P2P OTA updates.
 - **`storage`** – Saves the app storage path.
 
