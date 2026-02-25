@@ -2,6 +2,7 @@ const PearRuntimeUpdater = require('pear-runtime-updater')
 const ReadyResouce = require('ready-resource')
 const path = require('bare-path')
 const dir = require('bare-storage')
+const fs = require('bare-fs')
 
 module.exports = class PearRuntime extends ReadyResouce {
   constructor(opts = {}) {
@@ -14,6 +15,7 @@ module.exports = class PearRuntime extends ReadyResouce {
     this.storage = opts.storage || path.join(this.dir, 'app-storage')
 
     const appPath = path.join(opts.dir, 'pear-runtime', 'upgrade')
+    if (!fs.existsSync(appPath)) fs.mkdirSync(appPath, { recursive: true, force: true })
     this.updater = new PearRuntimeUpdater({ ...opts, app: appPath })
   }
 
