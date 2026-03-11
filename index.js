@@ -7,8 +7,6 @@ const fs = require('bare-fs')
 module.exports = class PearRuntime extends ReadyResouce {
   constructor(opts = {}) {
     super()
-    opts.name = opts.name || opts.app
-    if (!opts.name) throw new Error('need to pass name or app')
     if (!opts.dir) opts.dir = dir.persistent()
 
     this.dir = opts.dir
