@@ -20,9 +20,7 @@ This boilerplate is MVP and Experimental.
 const PearRuntime = require('pear-mobile')
 const { version, upgrade, productName, name } = require('./package.json')
 
-const app = productName ?? name
-
-const runtime = new PearRuntime({ version, upgrade, app })
+const runtime = new PearRuntime({ version, upgrade, name: productName })
 runtime.updater.on('updated', async () => {
   await runtime.updater.applyUpdate()
   conosle.log('restart for update')
@@ -52,8 +50,8 @@ Create a runtime. `opts` may include:
 
 - **`dir`** Directory to store data (e.g. app data dir). Defaults to `/Documents`.
 - **`upgrade`** – (required) Pear link for OTA updates (e.g. from `package.json` `upgrade` field).
-- **`app`** – (required) The package.json prductName or name of the app. required for `applyUpdate()` to swap in the new build.
-- **`name`** - The package.json prductName or name of the app.
+- **`name`** - (required) The package.json prductName of the app.
+- **`app`** – The path to the local OTA react-native bundle as booted from native code. (defaults to [pear-runtime-react-native](https://github.com/holepunchto/pear-runtime-react-native) default)
 - **`version`** – Current app version (e.g. from `package.json`); used for update checks.
 - **`updates`** – Set to `false` to disable P2P OTA updates.
 - **`storage`** – Saves the app storage path.
