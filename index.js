@@ -9,7 +9,7 @@ const fs = require('bare-fs')
 module.exports = class PearRuntime extends ReadyResource {
   constructor(opts = {}) {
     super()
-    if ((!opts.store && !!opts.swarm) || (!!opts.store && !opts.swarm)) {
+    if ((!opts.store && opts.swarm) || (opts.store && !opts.swarm)) {
       throw new Error('must pass store if passing swarm and vice versa')
     }
     if (!opts.dir) opts.dir = dir.persistent()
