@@ -1,5 +1,7 @@
 const PearRuntimeUpdater = require('pear-runtime-updater')
 const ReadyResouce = require('ready-resource')
+const Corestore = require('corestore')
+const Hyperswarm = require('hyperswarm')
 const path = require('bare-path')
 const dir = require('bare-storage')
 const fs = require('bare-fs')
@@ -16,7 +18,6 @@ module.exports = class PearRuntime extends ReadyResouce {
     this.swarm = opts.swarm || null
     this.isModuleSwarm = this.swarm === null
     this.bootstrap = opts.bootstrap
-    this.store = opts.store
     this.dir = opts.dir
     this.storage = opts.storage || path.join(this.dir, 'app-storage')
 
@@ -32,8 +33,8 @@ module.exports = class PearRuntime extends ReadyResouce {
       const keyPair = await store.createKeyPair('pear-runtime')
       this.swarm = new Hyperswarm({ keyPair, bootstrap: this.bootstrap })
     }
-    swarm.on('connection', (connection) => store.replicate(connection))
-    swarm.join(updater.drive.core.discoveryKey, {
+    swarm.on('connection', (connection) => this.updater.store.replicate(connection))
+    swarm.join(this.updater.drive.core.discoveryKey, {
       client: true,
       server: false
     })
