@@ -51,7 +51,7 @@ Create a runtime. `opts` may include:
 - **`dir`** Directory to store data (e.g. app data dir). Defaults to `/Documents`.
 - **`upgrade`** – (required) Pear link for OTA updates (e.g. from `package.json` `upgrade` field).
 - **`name`** - (required) The package.json prductName of the app.
-- **`store`** - (optional) pass a [Corestore](https://github.com/holepunchto/corestore) to be used for updates.
+- **`store`** - (optional) pass a [Corestore](https://github.com/holepunchto/corestore) to be used for updates. If passed `swarm` must also be passed. The `store` should be replicate over the `swarm`.
 - **`swarm`** - (optional) pass a [Hyperswarm](https://github.com/holepunchto/hyperswarm) to be used for swarming updates.
 - **`app`** – (optional) The path to the local OTA react-native bundle as booted from native code. (defaults to [pear-runtime-react-native](https://github.com/holepunchto/pear-runtime-react-native) default)
 - **`version`** – (optional) Current app version (i.e. from `package.json`); used for update checks.
