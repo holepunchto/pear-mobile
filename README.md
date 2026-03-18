@@ -52,7 +52,7 @@ Create a runtime. `opts` may include:
 - **`upgrade`** – (required) Pear link for OTA updates (e.g. from `package.json` `upgrade` field).
 - **`name`** - (required) The package.json prductName of the app.
 - **`store`** - (optional) pass a corestore to be used for updates.
-- **`swarm`** - (optional) pass a hyperswarm to be used for swarming updates. (need to handle store replecation manually if passed)
+- **`swarm`** - (optional) pass a hyperswarm to be used for swarming updates. (need to handle store replication manually if passed)
 - **`app`** – (optional) The path to the local OTA react-native bundle as booted from native code. (defaults to [pear-runtime-react-native](https://github.com/holepunchto/pear-runtime-react-native) default)
 - **`version`** – (optional) Current app version (e.g. from `package.json`); used for update checks.
 - **`updates`** – (optional) Set to `false` to disable P2P OTA updates.
