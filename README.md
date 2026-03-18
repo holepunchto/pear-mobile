@@ -54,7 +54,7 @@ Create a runtime. `opts` may include:
 - **`store`** - (optional) pass a corestore to be used for updates.
 - **`swarm`** - (optional) pass a hyperswarm to be used for swarming updates. (need to handle store replication manually if passed)
 - **`app`** – (optional) The path to the local OTA react-native bundle as booted from native code. (defaults to [pear-runtime-react-native](https://github.com/holepunchto/pear-runtime-react-native) default)
-- **`version`** – (optional) Current app version (e.g. from `package.json`); used for update checks.
+- **`version`** – (optional) Current app version (i.e. from `package.json`); used for update checks.
 - **`updates`** – (optional) Set to `false` to disable P2P OTA updates.
 - **`storage`** – (optional) Saves the app storage path.
 
