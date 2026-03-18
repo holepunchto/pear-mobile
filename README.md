@@ -51,10 +51,12 @@ Create a runtime. `opts` may include:
 - **`dir`** Directory to store data (e.g. app data dir). Defaults to `/Documents`.
 - **`upgrade`** – (required) Pear link for OTA updates (e.g. from `package.json` `upgrade` field).
 - **`name`** - (required) The package.json prductName of the app.
-- **`app`** – The path to the local OTA react-native bundle as booted from native code. (defaults to [pear-runtime-react-native](https://github.com/holepunchto/pear-runtime-react-native) default)
-- **`version`** – Current app version (e.g. from `package.json`); used for update checks.
-- **`updates`** – Set to `false` to disable P2P OTA updates.
-- **`storage`** – Saves the app storage path.
+- **`store`** - (optional) pass a [Corestore](https://github.com/holepunchto/corestore) to be used for updates. If passed `swarm` must also be passed. The `store` should be replicated over the `swarm`.
+- **`swarm`** - (optional) pass a [Hyperswarm](https://github.com/holepunchto/hyperswarm) to be used for swarming updates. If passed `store` must also be passed. The `store` should be replicated over the `swarm`.
+- **`app`** – (optional) The path to the local OTA react-native bundle as booted from native code. (defaults to [pear-runtime-react-native](https://github.com/holepunchto/pear-runtime-react-native) default)
+- **`version`** – (optional) Current app version (i.e. from `package.json`); used for update checks.
+- **`updates`** – (optional) Set to `false` to disable P2P OTA updates.
+- **`storage`** – (optional) Saves the app storage path.
 
 #### `pear.storage`
 
