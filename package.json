@@ -40,7 +40,7 @@
   "dependencies": {
     "bare-fs": "^4.5.5",
     "bare-path": "^3.0.0",
-    "bare-storage": "^1.0.1",
+    "bare-storage": "^1.1.0",
     "corestore": "^7.9.1",
     "hyperswarm": "^4.17.0",
     "pear-runtime-updater": "^3.0.0",
