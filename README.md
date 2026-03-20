@@ -27,6 +27,22 @@ runtime.updater.on('updated', async () => {
 })
 ```
 
+For `pear-mobile` to work it needs a boot setup in native code. This setup checks the app storage (a predefined path) for an existing react-native bundle (the OTA bundle) and will fall back to the default bundle (latest standart release) if it cant find it.
+
+To set up the native part in a full Expo enviornment, `pear-runtime-react-native` can be used. It exposes a plugin and a metro config that will set up the native code to tryboot from a path compatible with the default `pear-mobile` config (see [Quick Starts](#expo-plugin))
+
+To set it up in a more custom enviornment the native code has to be manually added (see [Custom Native Implementation](#custom))
+
+## Native Implementation
+
+### Expo Plugin
+
+TODO
+
+### Custom
+
+TODO
+
 ## Quick Starts
 
 ### Expo
