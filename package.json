@@ -2,19 +2,20 @@
   "name": "pear-mobile",
   "version": "4.1.1",
   "description": "Embeddable Pear runtime for mobile applications",
-  "main": "index.js",
+  "main": "bare.js",
   "exports": {
     "./package": "./package.json",
     ".": {
-      "types": "./index.d.ts",
-      "default": "./index.js"
+      "react-native": "./react-native.js",
+      "types": "./react-native.d.ts",
+      "default": "./bare.js"
     }
   },
   "files": [
     "package.json",
-    "index.js",
-    "index.d.ts",
-    "index.rn.js"
+    "bare.js",
+    "react-native.js",
+    "react-native.d.ts"
   ],
   "scripts": {
     "format": "prettier . --write",
@@ -45,5 +46,8 @@
     "hyperswarm": "^4.17.0",
     "pear-runtime-updater": "^3.0.0",
     "ready-resource": "^1.2.0"
+  },
+  "peerDependencies": {
+    "react-native-bare-kit": "*"
   }
 }
