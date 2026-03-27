@@ -26,6 +26,8 @@ module.exports = class PearRuntime extends ReadyResource {
     if (!fs.existsSync(appPath)) fs.mkdirSync(appPath, { recursive: true, force: true })
     this.updater = new PearRuntimeUpdater({ ...opts, app: appPath })
     this.updater.on('error', (err) => this.emit('error', err))
+
+    this.ready().catch(noop)
   }
 
   async _open() {
@@ -47,3 +49,5 @@ module.exports = class PearRuntime extends ReadyResource {
     if (this.opts.store) await this.store.close()
   }
 }
+
+function noop() {}
