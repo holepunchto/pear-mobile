@@ -25,7 +25,6 @@ module.exports = class PearRuntime extends ReadyResource {
     const appPath = opts.app || path.join(opts.dir, 'pear-runtime', 'ota')
     if (!fs.existsSync(appPath)) fs.mkdirSync(appPath, { recursive: true, force: true })
     this.updater = new PearRuntimeUpdater({ ...opts, app: appPath })
-    this.updater.on('error', (err) => this.emit('error', err))
 
     this.ready().catch(noop)
   }
