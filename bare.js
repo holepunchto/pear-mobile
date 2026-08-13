@@ -72,7 +72,10 @@ module.exports = class PearRuntime extends ReadyResource {
   _writeManifest() {
     const buffer = this.updater.nextManifest
     if (!buffer) return
-    fs.writeFileSync(path.join(this.updater.next, 'by-arch', host , 'app', this.updater.name, 'package.json'), buffer)
+    fs.writeFileSync(
+      path.join(this.updater.next, 'by-arch', host, 'app', this.updater.name, 'package.json'),
+      buffer
+    )
   }
 }
 
