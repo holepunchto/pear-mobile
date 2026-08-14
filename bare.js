@@ -61,11 +61,11 @@ module.exports = class PearRuntime extends ReadyResource {
     if (this.skipUpdate && (await this.skipUpdate())) return true
     await this.updater.drive.update()
     const buffer = await this.updater.drive.get('/pear.json')
-    const minVer = buffer && JSON.parse(buffer).updates?.minVer
-    if (!minVer) return false
+    const minver = buffer && JSON.parse(buffer).updates?.minver
+    if (!minver) return false
     const current = semver.Version.parse(this.updater.version)
-    const skip = current.compare(semver.Version.parse(minVer)) < 0
-    if (skip) this.emit('update-incompatible', { minVer, version: this.updater.version })
+    const skip = current.compare(semver.Version.parse(minver)) < 0
+    if (skip) this.emit('minver-required', { minver, version: this.updater.version })
     return skip
   }
 
