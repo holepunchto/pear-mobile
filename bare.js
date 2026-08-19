@@ -31,7 +31,7 @@ module.exports = class PearRuntime extends ReadyResource {
     this.updater = new PearRuntimeUpdater({
       ...opts,
       app: appPath,
-      skipUpdate: () => this._skipUpdate()
+      skipUpdate: this._skipUpdate.bind(this)
     })
     this.updater.on('updated', () => this._writeManifest())
 
