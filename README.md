@@ -60,8 +60,8 @@ import bundle from './worker.bundle.js'
 
 export default function App() {
   useEffect(() => {
-    const IPC = PearRuntime.run('/worker.bundle', bundle, [... args])
-  },[])
+    const IPC = PearRuntime.run('/worker.bundle', bundle, [...args])
+  }, [])
 }
 
 // bare worker
