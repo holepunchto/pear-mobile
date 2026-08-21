@@ -66,7 +66,7 @@ export default function App() {
 
 // bare worker
 const PearRuntime = require('pear-mobile')
-const { version, upgrade, productName, name } = require('./package.json')
+const { version, upgrade, productName } = require('./package.json')
 
 const runtime = new PearRuntime({ version, upgrade, name: productName })
 runtime.updater.on('updated', async () => {
@@ -204,46 +204,25 @@ The updater resolves exactly one path inside the drive, and nothing else:
 So for `productName` `ExampleApp` a deployment folder looks like this:
 
 ```
-dist/
-  package.json
-  pear.json
-  by-arch/
-    ios-arm64/
-      app/
-        ExampleApp/
-          app.bundle
-    ios-arm64-simulator/
-      app/
-        ExampleApp/
-          app.bundle
-    ios-x64-simulator/
-      app/
-        ExampleApp/
-          app.bundle
-    android-arm64/
-      app/
-        ExampleApp/
-          app.bundle
+/package.json
+/pear.json
+/by-arch
+  /[...platform-arch]
+    /app
+      /ExampleApp
+        /app.bundle
+        /assets
 ```
 
 The `<productName>` directory is mandatory. Without it the updater finds no entries under its prefix and throws `update not found`.
 
-Root `package.json` is mandatory too. There is no update at all without a manifest version to compare, and `pear-mobile` copies that manifest in next to the installed `app.bundle` before applying, which is what native boot control later reads. On the device the result is two files in `pear-runtime/ota`: `app.bundle` and `package.json`. A custom downloader has to preserve both.
-
-Supported mobile hosts:
-
-| Host                  | Use                        |
-| --------------------- | -------------------------- |
-| `ios-arm64`           | physical iOS devices       |
-| `ios-arm64-simulator` | Simulator on Apple Silicon |
-| `ios-x64-simulator`   | Simulator on Intel Macs    |
-| `android-arm64`       | Android devices            |
+Root `package.json` is mandatory too. There is no update at all without a manifest version to compare, and `pear-mobile` copies that manifest in next to the installed `app.bundle` before applying, which is what the native boot control later reads.
 
 The host is computed on the device from the Bare runtime's own platform and architecture, so a missing architecture is not a fallback situation: devices of that architecture simply find no update. A payload must therefore cover every architecture the app ships to, including the simulator hosts for anyone testing OTA in a simulator.
 
 ### Building the payload
 
-For React Native, bundling needs a `metro.config.js` in the project root that extends `@react-native/metro-config`, because the React Native CLI checks for it. In an Expo project, extend both:
+For React Native, bundling needs a `metro.config.js` in the project root that extends `@react-native/metro-config`. In an Expo project, extend both:
 
 ```js
 const { getDefaultConfig: getRNConfig, mergeConfig } = require('@react-native/metro-config')
@@ -252,15 +231,14 @@ const { getDefaultConfig: getExpoConfig } = require('expo/metro-config')
 module.exports = mergeConfig(getRNConfig(__dirname), getExpoConfig(__dirname))
 ```
 
-Expo is merged second so its values win, which makes the result equivalent to Expo's own default config. The reason for the first call is that `@react-native/metro-config` sets a global flag inside `getDefaultConfig()`, and the CLI prints a "your project's Metro config should extend '@react-native/metro-config'" warning when that flag is missing. A config built only from `expo/metro-config` never sets it.
-
 In a plain React Native project, drop the Expo half and use `getRNConfig(__dirname)` alone. Either way `@react-native/metro-config` belongs in the project devDependencies at the version matching the project React Native, together with `@react-native-community/cli`, which `npx react-native bundle` delegates to and fails without:
 
 ```sh
 npm install --save-dev @react-native/metro-config @react-native-community/cli
 ```
 
-Bundle the frontend into a directory named exactly `productName`, once per platform:
+> [!IMPORTANT]
+> Bundle the frontend into a directory named exactly `productName`, once per platform:
 
 ```sh
 npx react-native bundle --platform ios --dev false --entry-file index.js \
@@ -291,7 +269,7 @@ npx pear-build \
 ```json
 {
   "updates": {
-    "minver": "1.0.0"
+    "minver": "0.0.0-0"
   }
 }
 ```
@@ -305,7 +283,7 @@ Leave `minver` alone for an ordinary JS-only payload. Raise it to the version of
 Now go to the deployment folder and stage this onto the link with `pear stage`
 
 ```sh
-pear stage {link-from-touch}
+pear stage {link-from-touch} {path-to-payload}
 ```
 
 Now seed it. Any build out there on a lower version will trigger the update flow.
