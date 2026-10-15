@@ -151,6 +151,14 @@ Instance of [pear-runtime-updater](https://www.github.com/holepunchto/pear-runti
 
 Awaits the open of the updater (p2p connections, drive open ...)
 
+#### `await pear.clearUpgradeDrive()`
+
+Clears locally downloaded metadata and content blocks from the OTA upgrade drive. Awaits readiness and leaves installed and staged updates, application storage, and unrelated cores in a shared `store` intact. The drive keeps its key and history length and can download blocks again from peers.
+
+Call this only when no drive read, update check, download, prefetch, or application of an update is in progress, including the runtime's manifest copy. The application decides when to clean up, for example after applying an update once all drive reads have completed, or during an idle maintenance period. There is no automatic cleanup option.
+
+OTA storage uses append-only logs, so cached versions accumulate across updates. Only the device's architecture is downloaded, but the cache can grow beyond the size of the installed app. Clearing it removes the cache used for incremental downloads, so subsequent updates may download the full distributable and take longer. Cleared blocks also stop being available to other peers. Disk space reclamation depends on the storage backend's compaction.
+
 #### `await pear.close()`
 
 Shut it down. You should do this when closing your app for best performance.
