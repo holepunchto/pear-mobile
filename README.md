@@ -153,7 +153,7 @@ Awaits the open of the updater (p2p connections, drive open ...)
 
 #### `await pear.clearUpgradeDrive()`
 
-Clears cached upgrade metadata and content accumulated across updates, preserving application storage. Call when the updater is idle; future updates may require a full download.
+Clears cached upgrade metadata and content accumulated across updates, preserving application storage. Call when the updater is idle; clears up disk space but the next update has to be downloaded fully instead of only the diff.
 
 #### `await pear.close()`
 
