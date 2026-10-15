@@ -151,6 +151,10 @@ Instance of [pear-runtime-updater](https://www.github.com/holepunchto/pear-runti
 
 Awaits the open of the updater (p2p connections, drive open ...)
 
+#### `await pear.clearUpgradeDrive()`
+
+Clears cached upgrade metadata and content accumulated across updates, preserving application storage. Call when the updater is idle; clears up disk space but the next update has to be downloaded fully instead of only the diff.
+
 #### `await pear.close()`
 
 Shut it down. You should do this when closing your app for best performance.
